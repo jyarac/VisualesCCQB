@@ -40,17 +40,26 @@ function draw() {
 
 }
 
-// reset board when mouse is pressed
-function mousePressed() {
-  init();
-}
+
 
 function keyPressed(){
-
+  //detect if a or b or c is pressed
+  if (key == 'a' || key == 'A') {
+    //call function initA
+    initA();
+  } else if (key == 's' || key == 'S') {
+    //call function initB
+    initB();
+  }
+  else if (key == 'D' || key == 'D') {
+    //call function initC
+    initC();
+  }
+  //detect if f is pressed and call init
+  else if (key == 'f' || key == 'F') { 
+    init();
+  }
 }
-
-
-
 // Fill board randomly
 function init() {
   for (let i = 0; i < columns; i++) {
@@ -64,7 +73,20 @@ function init() {
   }
 }
 
-
+//create mousePressed function
+function mousePressed() {
+  //detect the cell that the mouse is over
+  let x = floor(mouseX / w);
+  let y = floor(mouseY / w);
+  //if the cell is 0, make it 1
+  if (board[x][y] == 0) {
+    board[x][y] = 1;
+  }
+  //if the cell is 1, make it 0
+  else {
+    board[x][y] = 0;
+  }
+}
 
 // The process of creating the new generation
 function generate() {
