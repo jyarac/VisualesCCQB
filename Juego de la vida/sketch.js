@@ -4,15 +4,17 @@ let columns;
 let rows;
 let board;
 let next;
+let paused = false;
 
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
   frameRate(10);
-  createCanvas(1000, 1000);
+  createCanvas(1200, 600);
   w = 20;
   // Calculate columns and rows
-  columns = floor(width / w);
-  rows = floor(height / w);
+  columns = 40;
+  rows = 40;
+
   // Wacky way to make a 2D array is JS
   board = new Array(columns);
   for (let i = 0; i < columns; i++) {
@@ -28,7 +30,10 @@ function setup() {
 
 function draw() {
   background(255);
-  generate();
+  if(!paused){
+    generate();
+  }
+  
   for ( let i = 0; i < columns;i++) {
     for ( let j = 0; j < rows;j++) {
       if ((board[i][j] == 1)) fill(0);
@@ -37,10 +42,11 @@ function draw() {
       rect(i * w, j * w, w-1, w-1);
     }
   }
+  generateText()
+  
+
 
 }
-
-
 
 function keyPressed(){
   //detect if a or b or c is pressed
@@ -62,6 +68,9 @@ function keyPressed(){
   //detect if e is pressed and call delete
   else if (key == 'e' || key == 'E') {
     deleteAll();
+  }
+  else if(key == 'p'){
+    paused = !paused
   }
 
 }
@@ -116,10 +125,6 @@ function initA() {
   board[36][3] = 1;
   board[36][4] = 1;
 }
-
-
-
-
 
 // Fill board randomly
 function init() {
@@ -178,4 +183,21 @@ function generate() {
   let temp = board;
   board = next;
   next = temp;
+}
+
+function generateText(){
+  //textSize(30); 
+  //fill(0); 
+  //text("El juego de la vida", width/2, 30); 
+  
+  fill(220,220,220)
+  rect(850, 40, 345, 170);
+  
+  textSize(15); 
+  fill(0); 
+  
+  text("Presione la tecla p para pausar el juego.", 855,60); 
+  text("Presione la tecla e para limpiar la pantalla.", 855,90); 
+  text("Presione la tecla f para crear un juego aleatorio.", 855,120); 
+  text("Presione la tecla a para cargar el modelo glider gun.", 855,150); 
 }
