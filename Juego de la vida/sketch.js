@@ -5,6 +5,7 @@ let rows;
 let board;
 let next;
 let paused = false;
+let font1 
 
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
@@ -27,13 +28,16 @@ function setup() {
   }
   init();
 }
+function preload() {
+  font1 = loadFont("Lato.ttf")
+}
 
 function draw() {
   background(255);
   if(!paused){
     generate();
   }
-  
+  strokeWeight(1)
   for ( let i = 0; i < columns;i++) {
     for ( let j = 0; j < rows;j++) {
       if ((board[i][j] == 1)) fill(0);
@@ -43,8 +47,6 @@ function draw() {
     }
   }
   generateText()
-  
-
 
 }
 
@@ -190,12 +192,17 @@ function generateText(){
   //fill(0); 
   //text("El juego de la vida", width/2, 30); 
   
-  fill(220,220,220)
+  fill(240,240,240)
   rect(850, 40, 345, 170);
   
-  textSize(15); 
-  fill(0); 
   
+  textFont(font1)
+  fill(0)
+  textSize(24); 
+  strokeWeight(1) 
+  text("El juego de la vida.", 855,35); 
+  textSize(15); 
+  strokeWeight(0.5) 
   text("Presione la tecla p para pausar el juego.", 855,60); 
   text("Presione la tecla e para limpiar la pantalla.", 855,90); 
   text("Presione la tecla f para crear un juego aleatorio.", 855,120); 
