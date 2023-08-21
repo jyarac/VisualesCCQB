@@ -40,8 +40,6 @@ function draw() {
 
 }
 
-
-
 function keyPressed(){
   //detect if a or b or c is pressed
   if (key == 'a' || key == 'A') {
