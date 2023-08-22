@@ -148,46 +148,60 @@ function initW(){
 }
 
 function initJ(){
+  
+  board[12][11] = 1;
+  board[13][11] = 1;
+  board[14][11] = 1;
+  board[15][11] = 1;
+  board[16][11] = 1;
+  board[17][11] = 1;
 
-  board[1][5] = 1;
-  board[2][5] = 1;
-  board[1][6] = 1;
-  board[2][6] = 1;
+  board[11][12] = 1;
+  board[12][12] = 1;
+  board[13][12] = 1;
+  board[14][12] = 1;
+  board[15][12] = 1;
+  board[16][12] = 1;
+  board[17][12] = 1;
+  board[18][12] = 1;
 
-  board[13][3] = 1;
-  board[14][3] = 1;
-  board[12][4] = 1;
-  board[16][4] = 1;
-  board[11][5] = 1;
-  board[17][5] = 1;
-  board[11][6] = 1;
-  board[15][6] = 1;
-  board[17][6] = 1;
-  board[18][6] = 1;
-  board[11][7] = 1;
-  board[17][7] = 1;
-  board[12][8] = 1;
-  board[16][8] = 1;
-  board[13][9] = 1;
-  board[14][9] = 1;
+  board[10][13] = 1;
+  board[11][13] = 1;
+  board[12][13] = 1;
+  board[13][13] = 1;
+  board[14][13] = 1;
+  board[15][13] = 1;
+  board[16][13] = 1;
+  board[17][13] = 1;
+  board[18][13] = 1;
+  board[19][13] = 1;
 
-  board[25][1] = 1;
-  board[23][2] = 1;
-  board[25][2] = 1;
-  board[21][3] = 1;
-  board[22][3] = 1;
-  board[21][4] = 1;
-  board[22][4] = 1;
-  board[21][5] = 1;
-  board[22][5] = 1;
-  board[23][6] = 1;
-  board[25][6] = 1;
-  board[25][7] = 1;
+  board[12][15] = 1;
+  board[13][15] = 1;
+  board[14][15] = 1;
+  board[15][15] = 1;
+  board[16][15] = 1;
+  board[17][15] = 1;
 
-  board[35][3] = 1;
-  board[36][3] = 1;
-  board[35][4] = 1;
-  board[36][4] = 1;
+  board[11][16] = 1;
+  board[12][16] = 1;
+  board[13][16] = 1;
+  board[14][16] = 1;
+  board[15][16] = 1;
+  board[16][16] = 1;
+  board[17][16] = 1;
+  board[18][16] = 1;
+
+  board[10][17] = 1;
+  board[11][17] = 1;
+  board[12][17] = 1;
+  board[13][17] = 1;
+  board[14][17] = 1;
+  board[15][17] = 1;
+  board[16][17] = 1;
+  board[17][17] = 1;
+  board[18][17] = 1;
+  board[19][17] = 1;
 }
 
 // Fill board randomly
@@ -270,7 +284,7 @@ function generateText(){
   text("Presione la tecla f para crear un juego aleatorio.", 855,120); 
   text("Presione la tecla a para cargar el modelo glider gun.", 855,150);
   text("Presione la tecla w para cargar el modelo W-shaped.", 855,180); 
-  text("Presione la tecla j para cargar el modelo ARSD", 855,210); 
+  text("Presione la tecla j para cargar el modelo Heart", 855,210); 
 
   // Mostrar la tecla presionada en un recuadro con color aleatorio
   fill(random(255), random(255), random(255));
