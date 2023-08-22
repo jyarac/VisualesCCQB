@@ -1,4 +1,3 @@
-
 let w;
 let columns;
 let rows;
@@ -6,6 +5,7 @@ let board;
 let next;
 let paused = false;
 let font1 
+let keyPressedText = "";
 
 function setup() {
   // Set simulation framerate to 10 to avoid flickering
@@ -59,13 +59,19 @@ function keyPressed(){
     //call function initB
     initB();
   }
-  else if (key == 'D' || key == 'D') {
+  else if (key == 'd' || key == 'D') {
     //call function initC
     initC();
   }
   //detect if f is pressed and call init
   else if (key == 'f' || key == 'F') { 
     init();
+  }
+  else if (key == 'w' || key == 'W') { 
+    initW();
+  }
+  else if (key == 'j' || key == 'J') {
+    initJ();
   }
   //detect if e is pressed and call delete
   else if (key == 'e' || key == 'E') {
@@ -75,7 +81,9 @@ function keyPressed(){
     paused = !paused
   }
 
+  keyPressedText = "Tecla presionada: " + key;
 }
+
 //create function deleteAll
 function deleteAll() {
   //put in 0 every cell
@@ -125,6 +133,60 @@ function initA() {
   board[35][3] = 1;
   board[35][4] = 1;
   board[36][3] = 1;
+  board[36][4] = 1;
+}
+
+
+function initW(){
+
+  board[15][10]=1;
+  board[16][11]=1;
+  board[17][10]=1;
+  board[17][9]=1;
+  board[18][11]=1;
+  board[19][10]=1;
+}
+
+function initJ(){
+
+  board[1][5] = 1;
+  board[2][5] = 1;
+  board[1][6] = 1;
+  board[2][6] = 1;
+
+  board[13][3] = 1;
+  board[14][3] = 1;
+  board[12][4] = 1;
+  board[16][4] = 1;
+  board[11][5] = 1;
+  board[17][5] = 1;
+  board[11][6] = 1;
+  board[15][6] = 1;
+  board[17][6] = 1;
+  board[18][6] = 1;
+  board[11][7] = 1;
+  board[17][7] = 1;
+  board[12][8] = 1;
+  board[16][8] = 1;
+  board[13][9] = 1;
+  board[14][9] = 1;
+
+  board[25][1] = 1;
+  board[23][2] = 1;
+  board[25][2] = 1;
+  board[21][3] = 1;
+  board[22][3] = 1;
+  board[21][4] = 1;
+  board[22][4] = 1;
+  board[21][5] = 1;
+  board[22][5] = 1;
+  board[23][6] = 1;
+  board[25][6] = 1;
+  board[25][7] = 1;
+
+  board[35][3] = 1;
+  board[36][3] = 1;
+  board[35][4] = 1;
   board[36][4] = 1;
 }
 
@@ -193,7 +255,7 @@ function generateText(){
   //text("El juego de la vida", width/2, 30); 
   
   fill(240,240,240)
-  rect(850, 40, 345, 170);
+  rect(850, 40, 345, 180);
   
   
   textFont(font1)
@@ -206,5 +268,13 @@ function generateText(){
   text("Presione la tecla p para pausar el juego.", 855,60); 
   text("Presione la tecla e para limpiar la pantalla.", 855,90); 
   text("Presione la tecla f para crear un juego aleatorio.", 855,120); 
-  text("Presione la tecla a para cargar el modelo glider gun.", 855,150); 
+  text("Presione la tecla a para cargar el modelo glider gun.", 855,150);
+  text("Presione la tecla w para cargar el modelo W-shaped.", 855,180); 
+  text("Presione la tecla j para cargar el modelo ARSD", 855,210); 
+
+  // Mostrar la tecla presionada en un recuadro con color aleatorio
+  fill(random(255), random(255), random(255));
+  rect(855, 230, 250, 40);
+  fill(0);
+  text("Tecla presionada: " + key, 855, 255);
 }
