@@ -69,6 +69,8 @@ function Boid(x, y) {
   this.r = 3.0;
   this.maxspeed = 3;    // Velocidad máxima
   this.maxforce = 0.05; // Fuerza de viraje máxima
+  //put a image for the agent
+  this.img = loadImage("bird.png");
 }
 
 Boid.prototype.run = function(boids) {
@@ -123,18 +125,19 @@ Boid.prototype.seek = function(target) {
 }
 
 Boid.prototype.render = function() {
-  // Dibuja un triángulo rotado en la dirección de la velocidad
+  // Calculate the angle of rotation for the image based on the velocity
   let theta = this.velocity.heading() + radians(90);
-  fill(127);
-  stroke(200);
+
+  // Translate and rotate the canvas
   push();
   translate(this.position.x, this.position.y);
   rotate(theta);
-  beginShape();
-  vertex(0, -this.r * 2);
-  vertex(-this.r, this.r * 2);
-  vertex(this.r, this.r * 2);
-  endShape(CLOSE);
+
+  // Display the image at the translated and rotated position
+  imageMode(CENTER);  // Set the image origin to the center
+  image(this.img, 0, 0, this.r * 8, this.r * 8);  // Adjust size as needed
+
+  // Restore the canvas to its original state
   pop();
 }
 
