@@ -3,12 +3,13 @@
 let flock;
 
 let text;
-
+let bg;
 function setup() {
-  //Put an image of a landscape in the background
   
   
+  bg = loadImage("landscape.jpg");
   createCanvas(640, 360);
+
   createP("Drag the mouse to generate new boids.");
 
   flock = new Flock();
@@ -20,7 +21,10 @@ function setup() {
 }
 
 function draw() {
-  background(51);
+  
+  background(bg);
+  stroke(226, 204, 0);
+
   flock.run();
 }
 
