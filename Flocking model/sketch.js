@@ -5,14 +5,15 @@ let flock;
 let text;
 let bg;
 function setup() {
-  
-  
-  bg = loadImage("landscape.jpg");
+  bg = loadImage("assets/landscape.jpg");
   createCanvas(640, 360);
 
   createP("Drag the mouse to generate new boids.");
 
   flock = new Flock();
+  //instantiate the obstacle in the middle of the screen
+  obstacle = new Obstacle(width / 2, height / 2, 100, 100);
+  //
   // Añade un conjunto inicial de boids al sistema
   for (let i = 0; i < 100; i++) {
     let b = new Boid(width / 2,height / 2);
@@ -24,7 +25,7 @@ function draw() {
   
   background(bg);
   stroke(226, 204, 0);
-
+  obstacle.show();
   flock.run();
 }
 
@@ -55,12 +56,6 @@ Flock.prototype.addBoid = function(b) {
   this.boids.push(b);
 }
 
-// The Nature of Code
-// Daniel Shiffman
-// http://natureofcode.com
-
-// Clase Boid
-// Métodos para Separación, Cohesión, alineamiento
 
 function Boid(x, y) {
   this.acceleration = createVector(0, 0);
@@ -70,7 +65,7 @@ function Boid(x, y) {
   this.maxspeed = 3;    // Velocidad máxima
   this.maxforce = 0.05; // Fuerza de viraje máxima
   //put a image for the agent
-  this.img = loadImage("bird.png");
+  this.img = loadImage("assets/bird.png");
 }
 
 Boid.prototype.run = function(boids) {
@@ -229,4 +224,13 @@ Boid.prototype.cohesion = function(boids) {
     return createVector(0, 0);
   }
 }
-
+//create an object called obstacle
+function Obstacle(x, y, w, h) {
+  this.position = createVector(x, y);
+  this.w = w;
+  this.h = h;
+  this.img = loadImage("tree.png");
+}
+Obstacle.prototype.show = function() {
+  image(this.img, this.position.x, this.position.y, this.w, this.h);
+}
