@@ -1,38 +1,44 @@
-
-
 let flock;
-
 let text;
 let bg;
+let obstacles = [];
+
 function setup() {
   bg = loadImage("assets/landscape.jpg");
   createCanvas(640, 360);
-
   createP("Drag the mouse to generate new boids.");
-
   flock = new Flock();
   //instantiate the obstacle in the middle of the screen
-  obstacle = new Obstacle(width / 2, height / 2, 100, 100);
+  //obstacle = new Obstacle(width / 2, height / 2, 100, 100);
+  //obstacles = new Obstacle(width / 2, height / 2, 100, 100);
+  
   //
   // Añade un conjunto inicial de boids al sistema
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 40; i++) {
     let b = new Boid(width / 2,height / 2);
     flock.addBoid(b);
   }
+}
+function preload() {
+  obstacleImage = loadImage("assets/tree.png"); // Carga la imagen
 }
 
 function draw() {
   
   background(bg);
   stroke(226, 204, 0);
-  obstacle.show();
+  //obstacle.show();
+  for (let i = 0; i < obstacles.length; i++) {
+    obstacles[i].show();
+  }
   flock.run();
 }
 
 // Añade un nuevo boid al sistema
+/*
 function mouseDragged() {
   flock.addBoid(new Boid(mouseX, mouseY));
-}
+}*/
 
 // The Nature of Code
 // Daniel Shiffman
@@ -45,6 +51,7 @@ function Flock() {
   // Un arreglo para todos los boids
   this.boids = []; // Inicializar el arreglo
 }
+
 
 Flock.prototype.run = function() {
   for (let i = 0; i < this.boids.length; i++) {
@@ -85,14 +92,17 @@ Boid.prototype.flock = function(boids) {
   let sep = this.separate(boids);   // Separación
   let ali = this.align(boids);      // Alineamiento
   let coh = this.cohesion(boids);   // Cohesión
+  let avoi = this.avoid(obstacles);
   // Dar un peso arbitrario a cada fuerza
   sep.mult(1.5);
   ali.mult(1.0);
   coh.mult(1.0);
+  avoi.mult(2.0);
   // Suma los vectores de fuerza a la aceleración
   this.applyForce(sep);
   this.applyForce(ali);
   this.applyForce(coh);
+  this.applyForce(avoi);
 }
 
 // Método para actualizar ubicación
@@ -135,7 +145,6 @@ Boid.prototype.render = function() {
   // Restore the canvas to its original state
   pop();
 }
-
 // Wraparound, salir por un borde y aparecer por el contrario
 Boid.prototype.borders = function() {
   if (this.position.x < -this.r)  this.position.x = width +this.r;
@@ -143,7 +152,6 @@ Boid.prototype.borders = function() {
   if (this.position.x > width + this.r) this.position.x = -this.r;
   if (this.position.y > height+ this.r) this.position.y = -this.r;
 }
-
 // Separación
 // Método que revisa los boids cercanos y vira para alejarse de ellos
 Boid.prototype.separate = function(boids) {
@@ -224,13 +232,50 @@ Boid.prototype.cohesion = function(boids) {
     return createVector(0, 0);
   }
 }
+
+Boid.prototype.avoid = function(obstacles) {
+  let desiredseparation = 50.0;
+  let steer = createVector(0, 0);
+  let count = 0;
+  
+  for (let i = 0; i < obstacles.length; i++) {
+    let d = p5.Vector.dist(this.position, obstacles[i].position);
+    
+    if (d > 0 && d < desiredseparation) {
+      let diff = p5.Vector.sub(this.position, obstacles[i].position);
+      diff.normalize();
+      diff.div(d);
+      steer.add(diff);
+      count++;
+    }
+  }
+  
+  if (count > 0) {
+    steer.div(count);
+  }
+  
+  if (steer.mag() > 0) {
+    steer.normalize();
+    steer.mult(this.maxspeed);
+    steer.sub(this.velocity);
+    steer.limit(this.maxforce);
+  }
+  
+  return steer;
+};
+
+
 //create an object called obstacle
 function Obstacle(x, y, w, h) {
   this.position = createVector(x, y);
   this.w = w;
   this.h = h;
   this.img = loadImage("tree.png");
+  this.img = obstacleImage;
 }
 Obstacle.prototype.show = function() {
   image(this.img, this.position.x, this.position.y, this.w, this.h);
+}
+function mouseClicked() {
+  obstacles.push(new Obstacle(mouseX, mouseY, 50, 50));
 }
