@@ -6,7 +6,7 @@ let obstacles = [];
 function setup() {
   bg = loadImage("assets/landscape.jpg");
   createCanvas(640, 360);
-  createP("Drag the mouse to generate new boids.");
+  createP("Click para hacer aparecer obstaculos.");
   flock = new Flock();
   //instantiate the obstacle in the middle of the screen
   //obstacle = new Obstacle(width / 2, height / 2, 100, 100);
