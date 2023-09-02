@@ -1,13 +1,16 @@
 const {Engine, World, Mouse, MouseConstraint, Events} = Matter;
 
-let engine, world, bird, ground, birdImg, boxImg, boxes = [];
+let engine, world, bird, ground, birdImg, boxImg, boxImg2, pigImg, boxes = [], pigs = [], birds = [];
 let mouseConstraint, slingshot;
 
-function preload() {
+function preload() { 
   birdImg = loadImage('bird.png');
-  boxImg = loadImage('box.png');
+  pigImg = loadImage('pig.png')
   slinImg = loadImage("slingshot.png");
   landscape = loadImage("landscape.jpg");
+  box1Img = loadImage('box1.png');
+  box2Img = loadImage('box2.png');
+  
 }
 
 function setup() {
@@ -27,18 +30,26 @@ function setup() {
   World.add(world, mouseConstraint);
   
   bird = new Bird(150, 375, 25, 5, birdImg);
+  pig1 = new Pig(1080, 370, 25, 5, pigImg);
+  pig2 = new Pig(1080, 320, 20, 5, pigImg);
+  pig3 = new Pig(1010, 320, 20, 5, pigImg);
+  pig4 = new Pig(1030, 365, 20, 7, pigImg);
+
   slingshot = new SlingShot(bird, slinImg);
   Events.on(engine, 'afterUpdate', 
     () => slingshot.fly(mouseConstraint));
   
   ground = new Ground(width/2, height - 10, width, 20);
-  
+
+  const box2 = new Box(100, 12, 20, 50, box2Img); 
+  boxes.push(box2);
+
   for (let i=0; i<8; i++){
-    const box = new Box(width * 3.0 / 4.0, 50*(i+1), 50, 50, boxImg);
-    boxes.push(box);
+    const box2 = new Box(width * 2.0 / 4.0, 50*(i+1), 150, 20, box2Img);
+    boxes.push(box2);
   }
   for (let i=0; i<8; i++){
-    const box = new Box(width * 3.0 / 4.0 + 75, 50*(i+1), 50, 50, boxImg);
+    const box = new Box(width * 3.0 / 4.0 + 75, 50*(i+1), 50, 50, box1Img);
     boxes.push(box);
   }
 }
@@ -51,13 +62,17 @@ function draw() {
   
   slingshot.show();
   bird.show();
+  pig1.show();
+  pig2.show();
+  pig3.show();
+  pig4.show();
   
   ground.show();
+  colisionHandler(boxes);
   
-  for (const box of boxes) {
-    box.show();
-  }
+  
 }
+
 
 function keyPressed(){
   if (key == ' ' && !slingshot.hasBird()) {
@@ -67,20 +82,21 @@ function keyPressed(){
   }
 }
 
-
-function collisionHandler(event) {
-  const pairs = event.pairs;
-
-  for (let i = 0; i < pairs.length; i++) {
-    const pair = pairs[i];
-
-    // Check if the collision involves a bird and a box
-    if (pair.bodyA.label === 'bird' && pair.bodyB.label === 'box') {
-      console.log('Bird collided with Box');
-      // You can add your collision handling logic here
-    } else if (pair.bodyA.label === 'box' && pair.bodyB.label === 'bird') {
-      console.log('Bird collided with Box');
-      // You can add your collision handling logic here
+function colisionHandler(boxes) {
+  for (const box of boxes) {
+    box.show();
+    
+    // Verificar si el pájaro está lo suficientemente cerca de la caja
+    const d = dist(bird.body.position.x, bird.body.position.y, box.body.position.x, box.body.position.y);
+    if (d < bird.body.circleRadius + box.w / 2 && box.life > 0) {
+      // Reducir la vida de la caja cuando el pájaro la toque
+      box.life -= 2000; // Puedes ajustar el valor de reducción
+    }
+    
+    // Eliminar las cajas con vida cero o menos
+    if (box.life <= 0) {
+      Matter.World.remove(world, box.body);
+      // Aquí puedes agregar cualquier otra acción cuando una caja se queda sin vida
     }
   }
 }

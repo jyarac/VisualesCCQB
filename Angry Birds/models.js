@@ -4,6 +4,7 @@ class Bird {
       Matter.Body.setMass(this.body, m);
       Matter.World.add(world, this.body);
       this.img = img;
+      this.label = "bird";
     }
     
     show() {
@@ -19,29 +20,68 @@ class Bird {
   }
   
   class Box {
-    constructor(x, y, w, h, img, options={}) {
+    constructor(x, y, w, h, img, options = {}) {
       this.body = Matter.Bodies.rectangle(x, y, w, h, options);
       this.w = w;
       this.h = h;
       this.img = img;
+      this.life = 100;
+      // Establece una vida inicial para las cajas
       Matter.World.add(world, this.body);
     }
+  
+    show() {
+      push();
+      translate(this.body.position.x, this.body.position.y);
+      rotate(this.body.angle);
     
+      if (this.life > 0) {
+        if (this.img) {
+          imageMode(CENTER);
+          image(this.img, 0, 0, this.w, this.h);
+        } else {
+          // Calcular el color en función de la vida restante
+          let boxColor = color(50, 200, 0);
+          boxColor.setAlpha(map(this.life, 0, 100, 100, 255)); // Cambiar la opacidad
+          fill(boxColor);
+          noStroke();
+          rectMode(CENTER);
+          rect(0, 0, this.w, this.h);
+        }
+      }
+    
+      pop();
+    }
+    
+    
+  }
+
+  class Pig{
+    constructor(x, y, r, m, img){
+      this.body = Matter.Bodies.circle(x, y, r, {restitution: 0.5});
+      Matter.Body.setMass(this.body, m);
+      Matter.World.add(world, this.body);
+      this.img = img;
+      this.label = "pig";
+      this.life = 150;
+    }
+
     show() {
       push();
       translate(this.body.position.x, this.body.position.y);
       rotate(this.body.angle);
       if (this.img) {
         imageMode(CENTER);
-        image(this.img, 0, 0, this.w, this.h);
+        image(this.img, 0, 0,2*this.body.circleRadius, 2*this.body.circleRadius );
       } else {
-        fill(50, 200, 0);
-        noStroke();
-        rectMode(CENTER);
-        rect(0, 0, this.w, this.h);
+        // fill(50, 200, 0);
+        // noStroke();
+        // rectMode(CENTER);
+        // rect(0, 0, this.w, this.h);
       }
       pop();
-    } 
+    }
+    
   }
   
   class Ground extends Box {
