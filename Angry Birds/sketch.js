@@ -1,15 +1,16 @@
 const {Engine, World, Mouse, MouseConstraint, Events} = Matter;
 
-let engine, world, bird, ground, redImg, boxImg, boxes = [];
+let engine, world, bird, ground, birdImg, boxImg, boxes = [];
 let mouseConstraint, slingshot;
 
 function preload() {
-  redImg = loadImage('red.png');
+  birdImg = loadImage('bird.png');
   boxImg = loadImage('box.png');
+  slinImg = loadImage("slingshot.png");
 }
 
 function setup() {
-  const canvas = createCanvas(680, 480);
+  const canvas = createCanvas(1600, 480);
   
   engine = Engine.create();
   world = engine.world;
@@ -22,8 +23,8 @@ function setup() {
   });
   World.add(world, mouseConstraint);
   
-  bird = new Bird(150, 375, 25, 5, redImg);
-  slingshot = new SlingShot(bird);
+  bird = new Bird(150, 375, 25, 5, birdImg);
+  slingshot = new SlingShot(bird, slinImg);
   Events.on(engine, 'afterUpdate', 
     () => slingshot.fly(mouseConstraint));
   
@@ -57,7 +58,7 @@ function draw() {
 function keyPressed(){
   if (key == ' ' && !slingshot.hasBird()) {
     World.remove(world, bird.body);
-    bird = new Bird(150, 375, 25, 5, redImg);
+    bird = new Bird(150, 375, 25, 5, birdImg);
     slingshot.attach(bird);
   }
 }

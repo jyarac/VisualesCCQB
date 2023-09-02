@@ -53,7 +53,7 @@ class Bird {
   }
   
   class SlingShot {
-    constructor(body){
+    constructor(body, img){
       const options = {
         pointA: {
           x: body.body.position.x,
@@ -63,17 +63,21 @@ class Bird {
         length: 5,
         stiffness: 0.05
       }
+      this.img = img;
       this.sling = Matter.Constraint.create(options);
       Matter.World.add(world, this.sling);
     }
     
     show(){
+
       if (this.sling.bodyB != null){
         stroke(0);
         strokeWeight(4);
         line(this.sling.pointA.x, this.sling.pointA.y,
           this.sling.bodyB.position.x, this.sling.bodyB.position.y);
+
       }
+      image(this.img, this.sling.pointA.x-35, this.sling.pointA.y-20, 65, 110);
     }
     
     fly(mConstraint){
