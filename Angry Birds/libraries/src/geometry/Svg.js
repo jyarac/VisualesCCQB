@@ -12,7 +12,7 @@ var Svg = {};
 
 module.exports = Svg;
 
-var Bounds = require('../geometry/Bounds');
+var Bounds = require('./Bounds');
 var Common = require('../core/Common');
 
 (function() {

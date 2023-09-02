@@ -8,7 +8,7 @@ var Axes = {};
 
 module.exports = Axes;
 
-var Vector = require('../geometry/Vector');
+var Vector = require('./Vector');
 var Common = require('../core/Common');
 
 (function() {

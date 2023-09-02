@@ -12,7 +12,7 @@ var Vertices = {};
 
 module.exports = Vertices;
 
-var Vector = require('../geometry/Vector');
+var Vector = require('./Vector');
 var Common = require('../core/Common');
 
 (function() {

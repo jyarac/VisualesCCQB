@@ -8,7 +8,7 @@ var Mouse = {};
 
 module.exports = Mouse;
 
-var Common = require('../core/Common');
+var Common = require('./Common');
 
 (function() {
 
