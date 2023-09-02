@@ -7,11 +7,14 @@ function preload() {
   birdImg = loadImage('bird.png');
   boxImg = loadImage('box.png');
   slinImg = loadImage("slingshot.png");
+  landscape = loadImage("landscape.jpg");
 }
 
 function setup() {
-  const canvas = createCanvas(1600, 480);
-  
+  const canvas = createCanvas(1400, 480);
+  //put landscape in background
+ 
+
   engine = Engine.create();
   world = engine.world;
   
@@ -43,6 +46,7 @@ function setup() {
 
 function draw() {
   background(128);
+  background(landscape);
   Engine.update(engine);
   
   slingshot.show();
@@ -60,5 +64,23 @@ function keyPressed(){
     World.remove(world, bird.body);
     bird = new Bird(150, 375, 25, 5, birdImg);
     slingshot.attach(bird);
+  }
+}
+
+
+function collisionHandler(event) {
+  const pairs = event.pairs;
+
+  for (let i = 0; i < pairs.length; i++) {
+    const pair = pairs[i];
+
+    // Check if the collision involves a bird and a box
+    if (pair.bodyA.label === 'bird' && pair.bodyB.label === 'box') {
+      console.log('Bird collided with Box');
+      // You can add your collision handling logic here
+    } else if (pair.bodyA.label === 'box' && pair.bodyB.label === 'bird') {
+      console.log('Bird collided with Box');
+      // You can add your collision handling logic here
+    }
   }
 }

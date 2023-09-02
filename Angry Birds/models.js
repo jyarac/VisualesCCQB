@@ -77,7 +77,7 @@ class Bird {
           this.sling.bodyB.position.x, this.sling.bodyB.position.y);
 
       }
-      image(this.img, this.sling.pointA.x-35, this.sling.pointA.y-20, 65, 110);
+      image(this.img, this.sling.pointA.x-35    , this.sling.pointA.y-20, 65, 110);
     }
     
     fly(mConstraint){
