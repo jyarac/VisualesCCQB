@@ -28,6 +28,7 @@ class Bird {
       this.life = 100;
       // Establece una vida inicial para las cajas
       Matter.World.add(world, this.body);
+      
     }
   
     show() {

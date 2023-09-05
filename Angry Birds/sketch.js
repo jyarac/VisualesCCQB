@@ -30,8 +30,8 @@ function setup() {
   World.add(world, mouseConstraint);
   
   bird = new Bird(150, 375, 25, 5, birdImg);
-  pig1 = new Pig(1080, 370, 25, 5, pigImg);
-  pig2 = new Pig(1080, 320, 20, 5, pigImg);
+  pig1 = new Pig(760, 370, 20, 5, pigImg);
+  pig2 = new Pig(760, 400, 20, 5, pigImg);
   pig3 = new Pig(1010, 320, 20, 5, pigImg);
   pig4 = new Pig(1030, 365, 20, 7, pigImg);
 
@@ -41,17 +41,27 @@ function setup() {
   
   ground = new Ground(width/2, height - 10, width, 20);
 
-  const box2 = new Box(100, 12, 20, 50, box2Img); 
-  boxes.push(box2);
 
-  for (let i=0; i<8; i++){
-    const box2 = new Box(width * 2.0 / 4.0, 50*(i+1), 150, 20, box2Img);
+  for (let i=0; i<3; i++){
+    pig1 = new Pig(760, 30*(i+1), 15, 1, pigImg);
+    const box1 = new Box(710, 60*(i+1), 50, 50, box1Img);
+    const boxx = new Box(850, 60*(i+1), 50, 50, box1Img);
+    const box2 = new Box(780, 40*(i+1), 200, 20, box2Img);
+    const box3 = new Box(1000, 60*(i+1), 50, 50, box1Img);
+    const box4 = new Box(1140, 60*(i+1), 50, 50, box1Img);
+    const box5 = new Box(1070, 40*(i+1), 200, 20, box2Img);
+    pig2= new Pig(1050, 30*(i+1), 15, 1, pigImg);
+    boxes.push(box1);
+    boxes.push(boxx);
+    boxes.push(pig1);
     boxes.push(box2);
+    boxes.push(box3);
+    boxes.push(box5);
+    boxes.push(box4);
+    boxes.push(pig2); 
   }
-  for (let i=0; i<8; i++){
-    const box = new Box(width * 3.0 / 4.0 + 75, 50*(i+1), 50, 50, box1Img);
-    boxes.push(box);
-  }
+
+  
 }
 
 
@@ -63,9 +73,9 @@ function draw() {
   slingshot.show();
   bird.show();
   pig1.show();
-  pig2.show();
-  pig3.show();
-  pig4.show();
+  //pig2.show();
+  //pig3.show();
+  //pig4.show();
   
   ground.show();
   colisionHandler(boxes);
