@@ -30,10 +30,10 @@ function setup() {
   World.add(world, mouseConstraint);
   
   bird = new Bird(150, 375, 25, 5, birdImg);
-  pig1 = new Pig(760, 370, 20, 5, pigImg);
-  pig2 = new Pig(760, 400, 20, 5, pigImg);
-  pig3 = new Pig(1010, 320, 20, 5, pigImg);
-  pig4 = new Pig(1030, 365, 20, 7, pigImg);
+  //pig1 = new Pig(760, 370, 20, 5, pigImg);
+  //pig2 = new Pig(760, 400, 20, 5, pigImg);
+  //pig3 = new Pig(1010, 320, 20, 5, pigImg);
+  //pig4 = new Pig(1030, 365, 20, 7, pigImg);
 
   slingshot = new SlingShot(bird, slinImg);
   Events.on(engine, 'afterUpdate', 
@@ -43,14 +43,14 @@ function setup() {
 
 
   for (let i=0; i<3; i++){
-    pig1 = new Pig(760, 30*(i+1), 15, 1, pigImg);
-    const box1 = new Box(710, 60*(i+1), 50, 50, box1Img);
-    const boxx = new Box(850, 60*(i+1), 50, 50, box1Img);
-    const box2 = new Box(780, 40*(i+1), 200, 20, box2Img);
-    const box3 = new Box(1000, 60*(i+1), 50, 50, box1Img);
-    const box4 = new Box(1140, 60*(i+1), 50, 50, box1Img);
-    const box5 = new Box(1070, 40*(i+1), 200, 20, box2Img);
-    pig2= new Pig(1050, 30*(i+1), 15, 1, pigImg);
+    pig1 = new Pig(760, 90*(i+1), 15, 1, pigImg);
+    const box1 = new Box(710, 100*(i+1), 50, 50, box1Img);
+    const boxx = new Box(850, 100*(i+1), 50, 50, box1Img);
+    const box2 = new Box(780, 80*(i+1), 200, 20, box2Img);
+    const box3 = new Box(1000, 100*(i+1), 50, 50, box1Img);
+    const box4 = new Box(1140, 100*(i+1), 50, 50, box1Img);
+    const box5 = new Box(1070, 80*(i+1), 200, 20, box2Img);
+    pig2= new Pig(1050, 90*(i+1), 15, 1, pigImg);
     boxes.push(box1);
     boxes.push(boxx);
     boxes.push(pig1);
@@ -60,19 +60,15 @@ function setup() {
     boxes.push(box4);
     boxes.push(pig2); 
   }
-
-  
 }
-
 
 function draw() {
   background(128);
   background(landscape);
   Engine.update(engine);
-  
   slingshot.show();
   bird.show();
-  pig1.show();
+  //pig1.show();
   //pig2.show();
   //pig3.show();
   //pig4.show();
@@ -100,7 +96,7 @@ function colisionHandler(boxes) {
     const d = dist(bird.body.position.x, bird.body.position.y, box.body.position.x, box.body.position.y);
     if (d < bird.body.circleRadius + box.w / 2 && box.life > 0) {
       // Reducir la vida de la caja cuando el pájaro la toque
-      box.life -= 2000; // Puedes ajustar el valor de reducción
+      box.life -= 20; // Puedes ajustar el valor de reducción
     }
     
     // Eliminar las cajas con vida cero o menos

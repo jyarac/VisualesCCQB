@@ -59,11 +59,14 @@ class Bird {
 
   class Pig{
     constructor(x, y, r, m, img){
-      this.body = Matter.Bodies.circle(x, y, r, {restitution: 0.5});
+      //this.body = Matter.Bodies.circle(x, y, r, {restitution: 0.5});
+      this.body = Matter.Bodies.rectangle(x, y, 40, 40, {restitution: 0.5});
       Matter.Body.setMass(this.body, m);
       Matter.World.add(world, this.body);
       this.img = img;
       this.label = "pig";
+      this.w = 40;
+      this.h = 40;
       this.life = 150;
     }
 
@@ -71,15 +74,17 @@ class Bird {
       push();
       translate(this.body.position.x, this.body.position.y);
       rotate(this.body.angle);
+      if (this.life > 0) {
       if (this.img) {
         imageMode(CENTER);
-        image(this.img, 0, 0,2*this.body.circleRadius, 2*this.body.circleRadius );
+        image(this.img, 0, 0,this.w, this.h);
       } else {
         // fill(50, 200, 0);
         // noStroke();
         // rectMode(CENTER);
         // rect(0, 0, this.w, this.h);
       }
+    }
       pop();
     }
     
