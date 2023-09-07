@@ -8,6 +8,7 @@ function preload() {
   birdRedImg = loadImage('redSpace.png');
   birdBombImg = loadImage('bomb.png');
   pigImg = loadImage('pig.png')
+  pig2Img = loadImage('pig2.png')
   slinImg = loadImage("slingshot.png");
   landscape = loadImage("landscape.jpg");
   box1Img = loadImage('box1.png');

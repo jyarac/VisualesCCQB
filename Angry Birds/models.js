@@ -77,7 +77,13 @@ class Bird {
       if (this.life > 0) {
       if (this.img) {
         imageMode(CENTER);
+        if(this.life >120){
         image(this.img, 0, 0,this.w, this.h);
+      }
+      else{
+          image(pig2Img, 0, 0,this.w, this.h);
+
+        }
       } else {
         // fill(50, 200, 0);
         // noStroke();
