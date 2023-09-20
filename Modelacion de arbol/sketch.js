@@ -21,12 +21,6 @@ function draw() {
   drawTree(100, treeDepth);
   pop();
 
-  // Configuración 3: Pasto
-  push();
-  translate(150, 0, 0);
-  drawGrass(grassCount, grassMaxHeight);
-  pop();
-
   // Configuración 2: Flor (con animación)
   push();
   translate(0, 0, 0);
@@ -35,6 +29,12 @@ function draw() {
     flowerSize += 0.5; // Incrementa gradualmente el tamaño de la flor
     petalCount++; // Añade gradualmente más pétalos
   }
+  pop();
+
+  // Configuración 3: Pasto
+  push();
+  translate(150, 0, 0);
+  drawGrass(grassCount, grassMaxHeight);
   pop();
 
   axes();
@@ -60,7 +60,19 @@ function drawFlower(radius, petals) {
 }
 
 function drawGrass(count, maxHeight) {
-  // (Código del pasto, sin cambios)
+  noStroke();
+  fill(0, 255, 0); // Verde
+
+  for (let i = 0; i < count; i++) {
+    let x = random(-width / 2, width / 2);
+    let y = random(-height / 2, height / 2);
+    let h = random(20, maxHeight);
+
+    push();
+    translate(x, y, h / 2);
+    box(5, 5, h);
+    pop();
+  }
 }
 
 function axes() {
