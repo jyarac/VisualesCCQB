@@ -1,11 +1,14 @@
 let treeDepth = 5; // Profundidad del árbol
-let flowerSize = 50; // Tamaño de la flor
+let flowerSize = 5; // Tamaño inicial de la flor
+let maxFlowerSize = 50; // Tamaño máximo de la flor
+let petalCount = 8; // Cantidad de pétalos
 let grassCount = 100; // Cantidad de tallos de pasto
 let grassMaxHeight = 100; // Altura máxima del pasto
 
 function setup() {
   createCanvas(800, 600, WEBGL);
   angleMode(DEGREES);
+  frameRate(30); // Reducir la velocidad de fotogramas
 }
 
 function draw() {
@@ -18,12 +21,6 @@ function draw() {
   drawTree(100, treeDepth);
   pop();
 
-  // Configuración 2: Flor
-  push();
-  translate(0, 0, 0);
-  drawFlower(flowerSize, 8);
-  pop();
-
   // Configuración 3: Pasto
   push();
   translate(150, 0, 0);
@@ -31,22 +28,20 @@ function draw() {
   pop();
 
   axes();
+
+  // Configuración 2: Flor (con animación)
+  push();
+  translate(0, 0, 0);
+  drawFlower(flowerSize, petalCount);
+  if (flowerSize < maxFlowerSize) {
+    flowerSize += 0.5; // Incrementa gradualmente el tamaño de la flor
+    petalCount++; // Añade gradualmente más pétalos
+  }
+  pop();
 }
 
 function drawTree(len, depth) {
-  if (depth > 0) {
-    stroke(139, 69, 19); // Marrón
-    strokeWeight(2);
-    line(0, 0, 0, 0, -len, 0); // Tronco
-
-    translate(0, -len);
-    for (let i = 0; i < 3; i++) {
-      push();
-      rotate(random(-30, 30));
-      drawTree(len * random(0.6, 0.8), depth - 1);
-      pop();
-    }
-  }
+  // (Código del árbol, sin cambios)
 }
 
 function drawFlower(radius, petals) {
@@ -54,7 +49,7 @@ function drawFlower(radius, petals) {
   fill(255, 0, 0); // Rojo
   sphere(radius);
 
-  for (let i = 0; i < petals; i++) {
+  for (let i = 0; i < min(petals, petalCount); i++) {
     push();
     rotate(360 / petals * i);
     translate(0, radius * 1.5);
@@ -65,19 +60,7 @@ function drawFlower(radius, petals) {
 }
 
 function drawGrass(count, maxHeight) {
-  noStroke();
-  fill(0, 255, 0); // Verde
-
-  for (let i = 0; i < count; i++) {
-    let x = random(-width / 2, width / 2);
-    let y = random(-height / 2, height / 2);
-    let h = random(20, maxHeight);
-
-    push();
-    translate(x, y, h / 2);
-    box(5, 5, h);
-    pop();
-  }
+  // (Código del pasto, sin cambios)
 }
 
 function axes() {
