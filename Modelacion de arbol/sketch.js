@@ -1,39 +1,71 @@
 function setup() {
   createCanvas(680, 400, WEBGL);
-  angleMode(DEGREES); // Cambia el modo de ángulo a grados
+  angleMode(DEGREES);
 }
-
-let angle = 0; // Variable para controlar el ángulo de crecimiento
 
 function draw() {
   background(0);
   orbitControl();
   
-  translate(0, height / 2); // Alinea el centro del tronco con la mitad de la altura
+  // Configuración 1: Árbol
+  translate(-100, 0, 0);
+  drawTree(100, 5);
   
-  // Llama a una función que dibuja la estructura
-  drawPlant(100, 10); // Los valores son solo ejemplos
+  // Configuración 2: Flor
+  translate(200, 0, 0);
+  drawFlower(50, 8);
+  
+  // Configuración 3: Hierba
+  translate(200, 0, 0);
+  drawGrass(10, 100);
   
   axes();
 }
 
-function drawPlant(len, level) {
+function drawTree(len, level) {
   if (level > 0) {
-    // Dibuja un tronco
-    stroke(139, 69, 19); // Color marrón
+    stroke(139, 69, 19); // Marrón
     strokeWeight(2);
-    line(0, 0, 0, 0, -len, 0); // Dibuja el tronco hacia abajo
+    line(0, 0, 0, 0, -len, 0); // Tronco
+    
+    translate(0, -len);
+    for (let i = 0; i < 3; i++) {
+      push();
+      rotate(random(-30, 30));
+      drawTree(len * 0.67, level - 1);
+      pop();
+    }
+  }
+}
 
-    translate(0, -len); // Mueve el punto de origen al extremo del tronco
-    push(); // Guarda la transformación actual
-    rotate(angle); // Rota a la derecha
-    drawPlant(len * 0.67, level - 1); // Dibuja una rama derecha recursivamente
-    pop(); // Restaura la transformación anterior
+function drawFlower(radius, petals) {
+  noStroke();
+  fill(255, 0, 0); // Rojo
+  sphere(radius);
+  
+  for (let i = 0; i < petals; i++) {
+    push();
+    rotate(360 / petals * i);
+    translate(0, radius * 1.5);
+    fill(255, 255, 0); // Amarillo
+    ellipse(0, 0, 40, 80);
+    pop();
+  }
+}
 
-    push(); // Guarda la transformación actual
-    rotate(-angle); // Rota a la izquierda
-    drawPlant(len * 0.67, level - 1); // Dibuja una rama izquierda recursivamente
-    pop(); // Restaura la transformación anterior
+function drawGrass(count, maxHeight) {
+  noStroke();
+  fill(0, 255, 0); // Verde
+  
+  for (let i = 0; i < count; i++) {
+    let x = random(-width / 2, width / 2);
+    let y = random(-height / 2, height / 2);
+    let h = random(20, maxHeight);
+    
+    push();
+    translate(x, y, 0);
+    box(5, 5, h);
+    pop();
   }
 }
 
