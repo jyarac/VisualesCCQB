@@ -27,8 +27,6 @@ function draw() {
   drawGrass(grassCount, grassMaxHeight);
   pop();
 
-  axes();
-
   // Configuración 2: Flor (con animación)
   push();
   translate(0, 0, 0);
@@ -38,6 +36,8 @@ function draw() {
     petalCount++; // Añade gradualmente más pétalos
   }
   pop();
+
+  axes();
 }
 
 function drawTree(len, depth) {
