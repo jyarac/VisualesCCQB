@@ -1,9 +1,11 @@
 let treeDepth = 5; // Profundidad del árbol
+let treeHeight = 10; // Altura inicial del árbol
+let maxTreeHeight = 100; // Altura máxima del árbol
 let flowerSize = 5; // Tamaño inicial de la flor
 let maxFlowerSize = 50; // Tamaño máximo de la flor
 let petalCount = 8; // Cantidad de pétalos
 let grassCount = 100; // Cantidad de tallos de pasto
-let grassMaxHeight = 100; // Altura máxima del pasto
+let grassMaxHeight = 10; // Altura máxima del pasto
 
 function setup() {
   createCanvas(800, 600, WEBGL);
@@ -15,10 +17,13 @@ function draw() {
   background(0);
   orbitControl();
 
-  // Configuración 1: Árbol
+// Configuración 1: Árbol
   push();
   translate(-150, 0, 0);
-  drawTree(100, treeDepth);
+  drawTree(treeHeight, treeDepth);
+  if (treeHeight < maxTreeHeight) {
+    treeHeight += 0.5; // Incrementa gradualmente la altura del árbol
+  }
   pop();
 
   // Configuración 2: Flor (con animación)
@@ -26,7 +31,7 @@ function draw() {
   translate(0, 0, 0);
   drawFlower(flowerSize, petalCount);
   if (flowerSize < maxFlowerSize) {
-    flowerSize += 0.5; // Incrementa gradualmente el tamaño de la flor
+    flowerSize += 0.1; // Incrementa gradualmente el tamaño de la flor
     petalCount++; // Añade gradualmente más pétalos
   }
   pop();
@@ -35,13 +40,28 @@ function draw() {
   push();
   translate(150, 0, 0);
   drawGrass(grassCount, grassMaxHeight);
+  if (grassMaxHeight < 100) {
+    grassMaxHeight += 0.1; // Incrementa gradualmente la altura del pasto
+  }
   pop();
 
   axes();
 }
 
 function drawTree(len, depth) {
-  // (Código del árbol, sin cambios)
+  if (depth > 0) {
+    stroke(139, 69, 19); // Marrón
+    strokeWeight(2);
+    line(0, 0, 0, 0, -len, 0); // Tronco
+
+    translate(0, -len);
+    for (let i = 0; i < 3; i++) {
+      push();
+      rotate(random(-30, 30));
+      drawTree(len * random(0.6, 0.8), depth - 1);
+      pop();
+    }
+  }
 }
 
 function drawFlower(radius, petals) {
