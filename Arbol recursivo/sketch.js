@@ -13,7 +13,7 @@ function setup() {
 }
 
 function draw() {
-  background(200);
+  background(0);
   translate(0,height/2);  // Centramos el árbol verticalmente
   branch(10 + growthFactor * frameCount); // La longitud de la rama inicial aumenta con el tiempo.
 }
@@ -21,7 +21,7 @@ function draw() {
 function branch(len) {
   strokeWeight(map(len, 10, 150, 0.5, 5));
   stroke(70, 40, 20);
-  texture(barkTexture);
+  //image(barkTexture,0, 0, 0, 0)
   line(0, 0, 0, 0, -len - 2, 0);
   translate(0, -len, 0);
 
@@ -34,7 +34,11 @@ function branch(len) {
       pop();
     }
   } else {
-    texture(leafTexture);
+    var r = 80 + random(-20,20);
+    var g = 120+ random(-20,20);
+    var b = 40+ random(-20,20);
+
+    fill(r,g,b,200);
     noStroke();
     translate(5, 0, 0);
     rotateZ(90);
