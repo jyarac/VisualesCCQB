@@ -19,7 +19,7 @@ rules1[0] = {
 var rules2 = [];
 rules2[0] = {
   a: "F",
-  b: "FF/[+F-F/F]-[-F+X+F]/[F]"
+  b: "FF/[+F-F/F]-[-F+X+F]/[F+X]"
 }
 rules2[1] = {
     a: "X",
