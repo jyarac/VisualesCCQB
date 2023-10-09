@@ -1,14 +1,41 @@
 let citySize = 8;
 let blockSize = 50;
-let buildingSpacing = 100;
+let buildingSpacing = 200;
 let city = [];
 let buildingColors = [];
 let index = 0;
 let camera, t = 0;
 const dt = 0.005;
-
 let controlPoints = [];
 let bezierSpline = [];
+
+let x0 = -1050
+let y0 = -200
+let z0= 310
+
+let x1 = -150
+let y1 = 0
+let z1= 500
+
+let x2 = -150
+let y2 = -0
+let z2= 0
+
+let x3 = -30
+let y3 = 0
+let z3= 20
+
+let x4 = 800
+let y4 = 0
+let z4= 20
+
+let x5 = 800
+let y5 = -200
+let z5= -200
+
+let x6 =800
+let y6 = 0
+let z6 = -1000
 
 function setup() {
   createCanvas(800, 600, WEBGL);
@@ -40,8 +67,23 @@ function setup() {
       i--;
       continue;
     }
-    controlPoints.push(createVector(x, y, z));
+    //point(-700,0,400)
+    //point(-150,0,400)
+    //point(-150,0,100)
+    
+    //controlPoints.push(createVector(x, y, z));
+    
   }
+  controlPoints.push(createVector(x0, y0, z0));
+    controlPoints.push(createVector(x1, y1, z1));
+    controlPoints.push(createVector(x2, y2, z2));
+  
+    controlPoints.push(createVector(x3, y3, z3));
+    controlPoints.push(createVector(x4, y4, z4));
+    controlPoints.push(createVector(x5, y5, z5));
+  
+    controlPoints.push(createVector(x6, y6, z6));
+  
 
   // Calculate the bezier spline
   bezierSpline = calculateBezierSpline(controlPoints);
@@ -49,11 +91,11 @@ function setup() {
 
 function draw() {
   background(220);
-
+  orbitControl();
   drawCity();
 
   // Draw Bezier spline
-  stroke(255, 0, 0);
+  //stroke(255, 0, 0);
   noFill();
   beginShape();
   for (let point of bezierSpline) {
@@ -68,6 +110,15 @@ function draw() {
   camera.lookAt(lookAtPos.x, lookAtPos.y, lookAtPos.z);
   t += dt;
   if (t > 1) t = 0;
+  point(x0,y0,z0)
+  point(x1,y1,z1)
+  point(x2,y2,z2)
+  point(x3,y3,z3)
+  point(x4,y4,z4)
+  point(x5,y5,z5)
+  point(x6,y6,z6)
+
+
 }
 
 function drawCity() {
