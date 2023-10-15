@@ -8,27 +8,37 @@ var angle;
 var axiom = "F";
 var sentence = axiom;
 
-var len = 180;
+var len = 100;
 
 var rules1 = [];
 rules1[0] = {
   a: "F",
-  b: "F/[+F-F'F]-[-F/F+F]"
+  b: "FF+[+F-F'F]-[-F/F+F]"
+  
+  
 }
 //hagan la configuraion que quieran con las siguientes reglas
 var rules2 = [];
 rules2[0] = {
   a: "F",
-  b: "FF/[+F-F/F]-[-F+X+F]/[F+X]"
+
+  b: "F+[+F-F/F]-[-F+F]FF"
+  
 }
 rules2[1] = {
     a: "X",
+    //b: "/F[+X]F['X]+X"
+
     b: "/F[+X]F['X]+X"
 }
 var rules3 = [];
 rules3[0] = {
   a: "F",
   b: "FF/[+F-F-F]'[-F+X-F]"
+}
+function preload() {
+  barkTexture = loadImage('corteza.png'); 
+  leafTexture = loadImage('pngegg.png'); 
 }
 function draw(){
     drawTree();
@@ -63,6 +73,7 @@ function drawTree() {
       }
   }
 }
+
 
 //para usar un conjutno diferente de reglas cambien esta funcion
 function generate(actualRules) {
