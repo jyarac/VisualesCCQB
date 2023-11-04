@@ -1,27 +1,30 @@
 let gl, camera, testComparator, shapes = [], enableZBuffer = true;
-let prevMousePos;
 
 function setup() {
   createCanvas(640, 480, WEBGL);
   camera = createCamera();
+  
   gl = this._renderer.GL;
 
-  prevMousePos = createVector(mouseX, mouseY);
-
+  for (let i = -2; i < 2; i++) {
+    for (let j = -2; j < 2; j++) {
+      for (let k = -2; k < 2; k++) {
+        createPyramid(75*i, 75*j, 75*k);
+      }
+    }
+  }
+  
+  // Hint: camera.eyeX, camera.eyeY, camera.eyeZ
   testComparator = (a, b) => {
-    const centerA = createVector(
-      (a.p1.x + a.p2.x + a.p3.x) / 3,
-      (a.p1.y + a.p2.y + a.p3.y) / 3,
-      (a.p1.z + a.p2.z + a.p3.z) / 3
-    );
-    const centerB = createVector(
-      (b.p1.x + b.p2.x + b.p3.x) / 3,
-      (b.p1.y + b.p2.y + b.p3.y) / 3,
-      (b.p1.z + b.p2.z + b.p3.z) / 3
-    );
-    const distA = dist(camera.eyeX, camera.eyeY, camera.eyeZ, centerA.x, centerA.y, centerA.z);
-    const distB = dist(camera.eyeX, camera.eyeY, camera.eyeZ, centerB.x, centerB.y, centerB.z);
-    return distB - distA;
+        
+    // Calcula la distancia desde el centro de la cara a la cámara.
+let distA = sqrt(pow(camera.eyeX - (a.p1.x + a.p2.x + a.p3.x) / 3, 2) + pow(camera.eyeY - (a.p1.y + a.p2.y + a.p3.y) / 3, 2) + pow(camera.eyeZ - (a.p1.z + a.p2.z + a.p3.z) / 3, 2));
+
+// Calcula la distancia desde el centro de la cara a la cámara.
+let distB = sqrt(pow(camera.eyeX - (b.p1.x + b.p2.x + b.p3.x) / 3, 2) + pow(camera.eyeY - (b.p1.y + b.p2.y + b.p3.y) / 3, 2) + pow(camera.eyeZ - (b.p1.z + b.p2.z + b.p3.z) / 3, 2));
+
+// Devuelve la diferencia entre las distancias.
+return distB - distA;
   };
 
   noStroke();
@@ -30,19 +33,13 @@ function setup() {
 function draw() {
   background(0);
   orbitControl();
-
-  let currentMousePos = createVector(mouseX, mouseY);
-  if (prevMousePos.dist(currentMousePos) > 5) { // Ajusta este valor según la sensibilidad que desees
-    createPyramid(random(-150, 150), random(-150, 150), random(-150, 150));
-    prevMousePos = currentMousePos;
-  }
-
+  
   shapes.sort(testComparator);
   shapes.forEach(s => s.show());
 }
 
 function keyPressed() {
-  if (key === ' ') {
+  if (key === ' '){
     enableZBuffer = !enableZBuffer;
     if (enableZBuffer) {
       gl.enable(gl.DEPTH_TEST);
@@ -71,7 +68,7 @@ class PyramidFace {
     this.p1 = p1;
     this.p2 = p2;
     this.p3 = p3;
-    this.col = color(random(255), random(255), random(255));
+    this.col = color(random(255),random(255),random(255))
   }
 
   show() {
