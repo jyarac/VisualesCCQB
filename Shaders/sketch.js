@@ -1,5 +1,6 @@
 let angle = 0;
 let img;
+let fogfarSlider, fognearSlider;
 
 function preload(){
   img = loadImage('f-texture.png');
@@ -7,6 +8,18 @@ function preload(){
 
 function setup() {
   createCanvas(1200, 800, WEBGL);
+  
+  // Create sliders
+  fogfarSlider = createSlider(0, 100, 50);
+  fogfarSlider.position(20, height + 60);
+  fognearSlider = createSlider(0, 100, 50);
+  fognearSlider.position(20, height + 90);
+
+  // Create labels
+  let fogfarLabel = createDiv('Fogfar');
+  fogfarLabel.position(20, height + 40);
+  let fognearLabel = createDiv('Fognear');
+  fognearLabel.position(20, height + 70);
 }
 
 function draw() {
