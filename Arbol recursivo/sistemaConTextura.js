@@ -17,11 +17,9 @@ function setup() {
 function draw() {
   orbitControl();
   background(0);
-  translate(0,height/2);  // Centramos el árbol verticalmente
-  if (10 + growthFactor * frameCount < maxHeight) {
+  translate(0,height/2);  // Centramos el árbol verticalmente.
   branch(10 + growthFactor * frameCount); // La longitud de la rama inicial aumenta con el tiempo.
   console.log(10 + growthFactor * frameCount);
-  }
 }
 
 function branch(len) {

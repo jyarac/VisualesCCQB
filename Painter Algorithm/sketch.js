@@ -14,18 +14,13 @@ function setup() {
     }
   }
   
-  // Hint: camera.eyeX, camera.eyeY, camera.eyeZ
   testComparator = (a, b) => {
-        
-    // Calcula la distancia desde el centro de la cara a la cámara.
-let distA = sqrt(pow(camera.eyeX - (a.p1.x + a.p2.x + a.p3.x) / 3, 2) + pow(camera.eyeY - (a.p1.y + a.p2.y + a.p3.y) / 3, 2) + pow(camera.eyeZ - (a.p1.z + a.p2.z + a.p3.z) / 3, 2));
-
-// Calcula la distancia desde el centro de la cara a la cámara.
-let distB = sqrt(pow(camera.eyeX - (b.p1.x + b.p2.x + b.p3.x) / 3, 2) + pow(camera.eyeY - (b.p1.y + b.p2.y + b.p3.y) / 3, 2) + pow(camera.eyeZ - (b.p1.z + b.p2.z + b.p3.z) / 3, 2));
-
-// Devuelve la diferencia entre las distancias.
-return distB - distA;
+    let camPos = createVector(camera.eyeX, camera.eyeY, camera.eyeZ);
+    let distA = a.averageDistance(camPos);
+    let distB = b.averageDistance(camPos);
+    return distB - distA; // Orden descendente
   };
+
 
   noStroke();
 }
@@ -35,7 +30,11 @@ function draw() {
   orbitControl();
   
   shapes.sort(testComparator);
-  shapes.forEach(s => s.show());
+  shapes.forEach(s => {
+    if (s.normal().z < 0) { // Comprobar si la cara está orientada hacia la cámara
+      s.show();
+    }
+  });
 }
 
 function keyPressed() {
@@ -62,7 +61,47 @@ function createPyramid(x, y, z) {
 
   shapes.push(face1, face2, face3, face4);
 }
+function checkOverlap(triangle) {
+  for (let other of shapes) {
+    if (other !== triangle) { // No comparar el triángulo consigo mismo
+      if (
+        triangle.p1.equals(other.p1) || triangle.p1.equals(other.p2) || triangle.p1.equals(other.p3) ||
+        triangle.p2.equals(other.p1) || triangle.p2.equals(other.p2) || triangle.p2.equals(other.p3) ||
+        triangle.p3.equals(other.p1) || triangle.p3.equals(other.p2) || triangle.p3.equals(other.p3)
+      ) {
+        // Comparten al menos un vértice
+        return true;
+      }
 
+      // Comprobar si los bordes se cruzan (podría necesitar una implementación más robusta)
+      if (checkEdgeIntersection(triangle.p1, triangle.p2, other.p1, other.p2) ||
+          checkEdgeIntersection(triangle.p1, triangle.p2, other.p2, other.p3) ||
+          checkEdgeIntersection(triangle.p1, triangle.p2, other.p3, other.p1) ||
+          checkEdgeIntersection(triangle.p2, triangle.p3, other.p1, other.p2) ||
+          checkEdgeIntersection(triangle.p2, triangle.p3, other.p2, other.p3) ||
+          checkEdgeIntersection(triangle.p2, triangle.p3, other.p3, other.p1) ||
+          checkEdgeIntersection(triangle.p3, triangle.p1, other.p1, other.p2) ||
+          checkEdgeIntersection(triangle.p3, triangle.p1, other.p2, other.p3) ||
+          checkEdgeIntersection(triangle.p3, triangle.p1, other.p3, other.p1)) {
+        // Los bordes se cruzan
+        return true;
+      }
+    }
+  }
+  return false;
+}
+function checkEdgeIntersection(p1, p2, p3, p4) {
+  // Comprobar si los bordes se cruzan (versión simplificada)
+  let d1 = direction(p3, p4, p1);
+  let d2 = direction(p3, p4, p2);
+  let d3 = direction(p1, p2, p3);
+  let d4 = direction(p1, p2, p4);
+
+  return ((d1 > 0 && d2 < 0) || (d1 < 0 && d2 > 0)) && ((d3 > 0 && d4 < 0) || (d3 < 0 && d4 > 0));
+}
+function direction(p1, p2, p3) {
+  return ((p3.x - p1.x) * (p2.y - p1.y)) - ((p2.x - p1.x) * (p3.y - p1.y));
+}
 class PyramidFace {
   constructor(p1, p2, p3) {
     this.p1 = p1;
@@ -70,6 +109,7 @@ class PyramidFace {
     this.p3 = p3;
     this.col = color(random(255),random(255),random(255))
   }
+  
 
   show() {
     fill(this.col);
@@ -79,4 +119,17 @@ class PyramidFace {
     vertex(this.p3.x, this.p3.y, this.p3.z);
     endShape(CLOSE);
   }
+  
+  averageDistance(cameraPos) {
+    let avgX = (this.p1.x + this.p2.x + this.p3.x) / 3;
+    let avgY = (this.p1.y + this.p2.y + this.p3.y) / 3;
+    let avgZ = (this.p1.z + this.p2.z + this.p3.z) / 3;
+    return dist(avgX, avgY, avgZ, cameraPos.x, cameraPos.y, cameraPos.z);
+  }
+  normal() {
+    let u = p5.Vector.sub(this.p2, this.p1);
+    let v = p5.Vector.sub(this.p3, this.p1);
+    return u.cross(v);
+  }
+  
 }
